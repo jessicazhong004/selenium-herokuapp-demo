@@ -1,8 +1,10 @@
 package com.jessica.qa.tests;
 
 import com.jessica.qa.pages.LoginPage;
+import com.jessica.qa.pages.SecureAreaPage;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LoginTest extends BaseTest {
@@ -14,13 +16,19 @@ public class LoginTest extends BaseTest {
         loginPage.open();
         loginPage.login("tomsmith", "SuperSecretPassword!");
 
-        String message = loginPage.getFlashMessage();
+        SecureAreaPage secureAreaPage = new SecureAreaPage(driver);
+
+        String headerText = secureAreaPage.getHeaderText();
+        assertEquals("Secure Area", headerText, "Expected to be on Secure Area page after login.");
+
+        String successMessage = secureAreaPage.getFlashMessage();
         assertTrue(
-                message.contains("You logged into a secure area!"),
-                "Expected success login message, but got: " + message
+                successMessage.contains("You logged into a secure area!"),
+                "Expected success login message, but got: " + successMessage
         );
 
-        loginPage.logout();
+        secureAreaPage.logout();
+
         assertTrue(
                 driver.getCurrentUrl().contains("/login"),
                 "Expected to be back on login page after logout."

@@ -13,7 +13,6 @@ public class LoginPage {
     private final By passwordInput = By.id("password");
     private final By loginButton = By.cssSelector("button[type='submit']");
     private final By flashMessage = By.id("flash");
-    private final By logoutLink = By.cssSelector("a[href='/logout']");
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -36,9 +35,5 @@ public class LoginPage {
     public String getFlashMessage() {
         WebElement flash = driver.findElement(flashMessage);
         return flash.getText();
-    }
-
-    public void logout() {
-        driver.findElement(logoutLink).click();
     }
 }
